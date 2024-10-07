@@ -7,6 +7,13 @@ const config = {
     chunkSize: 24 * 1024 * 1024,
 }
 
+function directoryExists(dir) {
+    if (!fs.existsSync(dir)) {
+        fs.mkdirSync(dir, { recursive: true });
+        console.log(`Directory created: ${dir}`);
+    }
+}
+
 function checkDirectory(dir, callback) {
     fs.readdir(dir, (err, files) => {
         if (err) {
@@ -46,6 +53,9 @@ function processChunk(file, start, end, counter, chunk_info) {
     chunk_info.keys[counter] = secret_key;
 }
 
+directoryExists(config.inputDir);
+directoryExists(config.outputDir);
+
 checkDirectory(config.inputDir, (err, files) => {
     if (err) {
         console.error('Error reading directory: ', err);
@@ -62,7 +72,7 @@ checkDirectory(config.inputDir, (err, files) => {
         return;
     }
 
-    let outputFolder = fs.readdirSync(config.outputDir); 
+    let outputFolder = fs.readdirSync(config.outputDir);
     if (outputFolder.length !== 0) {
         console.log('Output folder must be empty.');
         return;
