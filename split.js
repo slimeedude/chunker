@@ -63,18 +63,18 @@ checkDirectory(config.inputDir, (err, files) => {
     }
 
     if (files.length === 0) {
-        console.log('No files found in the input folder.');
+        console.error('No files found in the input folder.');
         return;
     }
 
     if (files.length > 1) {
-        console.log('Cannot proceed with multiple input files; please input a single file.');
+        console.warn('Cannot proceed with multiple input files; please input a single file.');
         return;
     }
 
     let outputFolder = fs.readdirSync(config.outputDir);
     if (outputFolder.length !== 0) {
-        console.log('Output folder must be empty.');
+        console.warn('Output folder must be empty.');
         return;
     }
 
